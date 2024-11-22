@@ -29,7 +29,6 @@
 import concurrent.futures
 import functools
 import json
-import shutil
 import tempfile
 from functools import partial
 from os import PathLike
@@ -80,6 +79,7 @@ def parallelize(func):
             return func(self, val, *args, **kwargs)
 
     return parallel_wrapper
+
 
 def common_root(*paths: PathLike) -> Path:
     path_parts = []
