@@ -91,7 +91,7 @@ def create_zip(dir: PathLike) -> str:
     """
     zip_file_fd, zip_file_path = tempfile.mkstemp(prefix=path.basename(dir), suffix='.zip')
     zip_file_path = Path(zip_file_path)
-    shutil.make_archive(str(zip_file_path.parent / zip_file_path.stem), "zip", None, str(dir))
+    shutil.make_archive(str(zip_file_path.parent / zip_file_path.stem), "zip", root_dir=str(dir))
 
     return zip_file_path
 
