@@ -32,9 +32,10 @@ import json
 import shutil
 import tempfile
 from functools import partial
-from os import PathLike, path
+from os import PathLike
 from pathlib import Path
 from typing import List
+from zipfile import ZipFile
 
 from requests import Response
 
@@ -80,8 +81,32 @@ def parallelize(func):
 
     return parallel_wrapper
 
+def common_root(*paths: PathLike) -> Path:
+    path_parts = []
+    min_len = 0
+    for path in paths:
+        parts = list(Path(path).parts)
+        if len(parts) < min_len or min_len == 0:
+            min_len = len(parts)
+        path_parts.append(parts)
 
-def create_zip(dir: PathLike) -> str:
+    root_parts = path_parts[0][0:min_len]
+    path_parts.pop(0)
+    while len(root_parts) > 0:
+        current_min_len = min_len
+        part = root_parts[-1]
+        for parts in path_parts:
+            if part != parts[min_len - 1]:
+                root_parts.pop()
+                min_len -= 1
+                break
+        if current_min_len == min_len:
+            break
+
+    return Path(*root_parts)
+
+
+def create_zip(*paths: PathLike) -> str:
     """Create Zip
     Takes a directory and creates a temporary zip file of it.
 
@@ -89,9 +114,17 @@ def create_zip(dir: PathLike) -> str:
 
     :returns: path of zip file
     """
-    zip_file_fd, zip_file_path = tempfile.mkstemp(prefix=path.basename(dir), suffix='.zip')
-    zip_file_path = Path(zip_file_path)
-    shutil.make_archive(str(zip_file_path.parent / zip_file_path.stem), "zip", root_dir=str(dir))
+    paths = [Path(path) for path in paths]
+    root_dir = common_root(*paths)
+    zip_file_fd, zip_file_path = tempfile.mkstemp(prefix=root_dir.stem, suffix='.zip')
+    zip_file = ZipFile(zip_file_path, 'w')
+    for path in paths:
+        if path.is_file():
+            zip_file.write(path, path.relative_to(root_dir))
+        for file_path in path.glob("**/*"):
+            zip_file.write(file_path, file_path.relative_to(root_dir))
+
+    zip_file.close()
 
     return zip_file_path
 
