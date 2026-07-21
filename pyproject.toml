@@ -15,7 +15,7 @@ readme = 'README.md'
 license = 'LICENSE.txt'
 
 [tool.poetry.dependencies]
-python = ">=3.8"
+python = ">=3.10"
 
 requests-toolbelt = "~1.0"
 
