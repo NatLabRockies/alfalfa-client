@@ -13,6 +13,14 @@ authors = [
 ]
 readme = 'README.md'
 license = 'LICENSE.txt'
+# `alfalfa_client` is a backwards-compatibility shim re-exporting `pacer_client`
+# (see alfalfa_client/__init__.py). Both packages ship in every distribution so
+# `pacer-client` and `alfalfa-client` installs stay import-compatible during the
+# rename transition.
+packages = [
+    { include = "pacer_client" },
+    { include = "alfalfa_client" },
+]
 
 [tool.poetry.dependencies]
 python = ">=3.10"
