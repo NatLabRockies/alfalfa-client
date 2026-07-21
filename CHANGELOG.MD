@@ -13,7 +13,7 @@
 
 - Add `AlfalfaClient`/`alfalfa_client` backwards-compatibility aliases (with a `DeprecationWarning` on
   `import alfalfa_client`) and publish to both the `pacer-client` and `alfalfa-client` PyPI projects during the
-  rename transition (PR pending)
+  rename transition
 
 # pacer-client Version 1.0.0
 
