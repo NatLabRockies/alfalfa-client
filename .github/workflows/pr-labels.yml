@@ -8,6 +8,10 @@ on:
   pull_request:
     types: [opened, labeled, unlabeled, synchronize]
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   check_pr_labels:
     runs-on: ubuntu-latest
