@@ -62,6 +62,6 @@ correctly, per `.github/release.yml`.
    this alongside the version bump PR, or as a quick follow-up commit on `main`.
 1. Publish the drafted release. This triggers the `PyPIRelease` workflow (`.github/workflows/pypi_release.yml`),
    which builds the package and publishes it to PyPI via trusted publishing — no manual `poetry build`/`poetry
-   publish` needed.
+publish` needed.
 1. Confirm the new version appears on [PyPI](https://pypi.org/project/pacer-client/) and that the release notes
    and `CHANGELOG.MD` match.
