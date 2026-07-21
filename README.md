@@ -57,9 +57,8 @@ correctly, per `.github/release.yml`.
    If `--ff-only` fails, `main` and `develop` have diverged (e.g. a hotfix landed only on `main`) — reconcile that first so the release doesn't leave the branches out of sync.
 1. Draft a release on the GitHub repository targeting `main` (tag `v0.1.2`) and click **"Generate release notes"**
    (UI), or run `gh release create v0.1.2 --target main --generate-notes --draft` — do not publish yet.
-1. Copy the generated "## What's Changed" notes into `CHANGELOG.MD` as a new `# pacer-client Version 0.1.2` entry
-   at the top of the file (see existing entries for the format), cleaning up wording/spelling as needed. Commit
-   this alongside the version bump PR, or as a quick follow-up commit on `main`.
+1. Copy the generated "## What's Changed" notes into `CHANGELOG.MD` under the `# Unreleased` section, then (as part of the release) rename that header to `# pacer-client Version 0.1.2` and add the `**Full Changelog**` line.
+1. Commit this alongside the version bump PR, or as a quick follow-up commit on `main`.
 1. Publish the drafted release. This triggers the `PyPIRelease` workflow (`.github/workflows/pypi_release.yml`),
    which builds the package and publishes it to PyPI via trusted publishing — no manual `poetry build`/`poetry
 publish` needed.
