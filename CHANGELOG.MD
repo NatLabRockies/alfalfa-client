@@ -1,57 +1,176 @@
-# Change Log
+# Unreleased
 
-## v0.5.0 (Unreleased)
+<!-- Release notes generated using configuration in .github/release.yml -->
 
-- Drop support for Python 3.7
-- Move from QraplQL to REST API
-- Renamed methods to standardize naming conventions
-- `_many` methods replaced by allowing methods to take either a single item or a list as their first argument
-- `submit()` will automatically zip folders (you no longer need to manually zip your OSWs if you don't want to)
-- Multiple runs can be created from the same model without reuploading by using `upload_model` and `create_run_from_model` methods
+## What's Changed
 
-## v0.4.0
+### Breaking Changes 🛠
 
-- Release for Alfalfa 0.4.0
+* Rename alfalfa-client to pacer-client by @nllong in https://github.com/NatLabRockies/alfalfa-client/pull/75
+* Group dependabot updates and drop python <=3.9 by @nllong in https://github.com/NatLabRockies/alfalfa-client/pull/82
 
-## v0.3.0
+# pacer-client Version 1.0.0
 
-- Upgrade dependencies
-- Release for Alfalfa 0.3.0
+<!-- Release notes generated using configuration in .github/release.yml -->
 
-## v0.2.1
+## What's Changed
 
-- Upgrade dependencies to increase compatibility with python 3.7+
+### New Features 🎉
 
-## v0.2.0
+* Enhance file operations by @TShapinsky in https://github.com/NatLabRockies/alfalfa-client/pull/72
 
-- Rename graphQL endpoint from osmName to modelName. This is a breaking change.
+**Full Changelog**: https://github.com/NatLabRockies/alfalfa-client/compare/v0.7.0...v1.0.0
 
-## v0.1.1
+# pacer-client Version 0.7.0
 
-- Fix the exteralClock to allow passing either a boolean or a string
+<!-- Release notes generated using configuration in .github/release.yml -->
 
-## v0.1.0-dev7
+## What's Changed
 
-- Update importlib-metadata to latest
+### New Features 🎉
 
-## v0.1.0-dev6
+* BOPTEST API alignment by @TShapinsky in https://github.com/NatLabRockies/alfalfa-client/pull/64
+* Add check for model file before attempting to upload by @TShapinsky in https://github.com/NatLabRockies/alfalfa-client/pull/65
 
-Deleted from PyPi and untagged.
+### Maintenance 🧹
 
-## v0.1.0-dev5
+* Remove deprecated pkg_resources by @TShapinsky in https://github.com/NatLabRockies/alfalfa-client/pull/66
+* Client cleanup by @TShapinsky in https://github.com/NatLabRockies/alfalfa-client/pull/68
 
-Date: 2020-12-28
+**Full Changelog**: https://github.com/NatLabRockies/alfalfa-client/compare/v0.6.0...v0.7.0
 
-- Update documentation, add tox testing
+# pacer-client Version 0.6.0
 
-## v0.2.0-dev
+<!-- Release notes generated using configuration in .github/release.yml -->
 
-Date: 2020-04-01
+## What's Changed
 
-- Migrate to new home repository
+### Bug Fixes 🐛
 
-## v0.1.0-dev
+* Handle outputs before values are populated by @TShapinsky in https://github.com/NatLabRockies/alfalfa-client/pull/56
+* Properly remove trailing / from URL by @TShapinsky in https://github.com/NatLabRockies/alfalfa-client/pull/60
 
-Date: 2020-01-07
+### Maintenance 🧹
 
-- Initial release of the package
+* Python version testing matrix by @TShapinsky in https://github.com/NatLabRockies/alfalfa-client/pull/58
+* remove constraint of <3.11 for python by @TShapinsky in https://github.com/NatLabRockies/alfalfa-client/pull/61
+* Generate Python docs on merge to main by @TShapinsky in https://github.com/NatLabRockies/alfalfa-client/pull/55
+
+**Full Changelog**: https://github.com/NatLabRockies/alfalfa-client/compare/v0.5.0...v0.6.0
+
+# pacer-client Version 0.5.0
+
+<!-- Release notes generated using configuration in .github/release.yml -->
+
+## What's Changed
+
+### Breaking Changes 🛠
+
+* Upgrade dependencies (drops Python 3.7 support) by @nllong in https://github.com/NatLabRockies/alfalfa-client/pull/47
+* Rest api and rearchitecture by @TShapinsky in https://github.com/NatLabRockies/alfalfa-client/pull/45
+
+**Full Changelog**: https://github.com/NatLabRockies/alfalfa-client/compare/v0.4.0...v0.5.0
+
+# pacer-client Version 0.4.0
+
+_No pull request record found for this release._
+
+**Full Changelog**: https://github.com/NatLabRockies/alfalfa-client/compare/v0.3.1...v0.4.0
+
+# pacer-client Version 0.3.1
+
+<!-- Release notes generated using configuration in .github/release.yml -->
+
+## What's Changed
+
+### Bug Fixes 🐛
+
+* Fix undefined values in run site by @TShapinsky in https://github.com/NatLabRockies/alfalfa-client/pull/35
+
+**Full Changelog**: https://github.com/NatLabRockies/alfalfa-client/compare/v0.3.0...v0.3.1
+
+# pacer-client Version 0.3.0
+
+<!-- Release notes generated using configuration in .github/release.yml -->
+
+## What's Changed
+
+### Maintenance 🧹
+
+* Support for next release of Alfalfa (v0.3.0) by @nllong in https://github.com/NatLabRockies/alfalfa-client/pull/33
+
+**Full Changelog**: https://github.com/NatLabRockies/alfalfa-client/compare/v0.2.1...v0.3.0
+
+# pacer-client Version 0.2.1
+
+<!-- Release notes generated using configuration in .github/release.yml -->
+
+## What's Changed
+
+### Maintenance 🧹
+
+* Upgrade python 3.7 by @TShapinsky in https://github.com/NatLabRockies/alfalfa-client/pull/28
+
+**Full Changelog**: https://github.com/NatLabRockies/alfalfa-client/compare/v0.2.0...v0.2.1
+
+# pacer-client Version 0.2.0
+
+<!-- Release notes generated using configuration in .github/release.yml -->
+
+## What's Changed
+
+### Breaking Changes 🛠
+
+* Alfalfa uses modelName instead of osmName by @nllong in https://github.com/NatLabRockies/alfalfa-client/pull/21
+
+**Full Changelog**: https://github.com/NatLabRockies/alfalfa-client/compare/v0.1.1...v0.2.0
+
+# pacer-client Version 0.1.1
+
+<!-- Release notes generated using configuration in .github/release.yml -->
+
+## What's Changed
+
+### Bug Fixes 🐛
+
+* externalClock allow bool or str by @nllong in https://github.com/NatLabRockies/alfalfa-client/pull/17
+
+**Full Changelog**: https://github.com/NatLabRockies/alfalfa-client/compare/v0.1.0-dev7...v0.1.1
+
+# pacer-client Version 0.1.0-dev7
+
+<!-- Release notes generated using configuration in .github/release.yml -->
+
+## What's Changed
+
+### Maintenance 🧹
+
+* Unlock importlib-metadata by @nllong in https://github.com/NatLabRockies/alfalfa-client/pull/14
+
+**Full Changelog**: https://github.com/NatLabRockies/alfalfa-client/compare/0.1.0.dev5...v0.1.0-dev7
+
+# pacer-client Version 0.1.0-dev6
+
+Deleted from PyPI and untagged; no release notes were published for this version.
+
+# pacer-client Version 0.1.0-dev5
+
+<!-- Release notes generated using configuration in .github/release.yml -->
+
+## What's Changed
+
+### Maintenance 🧹
+
+* Prep 0.1.0-dev5 release by @corymosiman12 in https://github.com/NatLabRockies/alfalfa-client/pull/5
+
+# pacer-client Version 0.2.0-dev
+
+_No pull request record found for this release._
+
+* Migrate to new home repository
+
+# pacer-client Version 0.1.0-dev
+
+_No pull request record found for this release._
+
+* Initial release of the package

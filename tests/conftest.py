@@ -1,6 +1,6 @@
 """
 ****************************************************************************************************
-:copyright (c) 2008-2021 URBANopt, Alliance for Sustainable Energy, LLC, and other contributors.
+:copyright (c) 2018-2026 URBANopt, Alliance for Energy Innovation, LLC, and other contributors.
 
 All rights reserved.
 
