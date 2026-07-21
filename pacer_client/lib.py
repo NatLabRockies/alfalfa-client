@@ -33,7 +33,6 @@ import tempfile
 from functools import partial
 from os import PathLike
 from pathlib import Path
-from typing import List
 from zipfile import ZipFile
 
 from requests import Response
@@ -49,7 +48,7 @@ def parallelize(func):
 
     """
 
-    def parallel_call(func, iter_vals: List, args: List = [], kwargs: dict = {}):
+    def parallel_call(func, iter_vals: list, args: list = [], kwargs: dict = {}):
         responses = [None] * len(iter_vals)
         with concurrent.futures.ThreadPoolExecutor() as executor:
             future_to_index = {executor.submit(func, iter_vals[i], *args, **kwargs): i for i in range(len(iter_vals))}
@@ -67,7 +66,7 @@ def parallelize(func):
             args = args[1:]
         else:
             first_varname = func.__code__.co_varnames[1]
-            if first_varname in kwargs.keys():
+            if first_varname in kwargs:
                 val = kwargs[first_varname]
                 del kwargs[first_varname]
             else:
@@ -116,8 +115,8 @@ def create_zip(*paths: PathLike) -> str:
     """
     paths = [Path(path) for path in paths]
     root_dir = common_root(*paths)
-    zip_file_fd, zip_file_path = tempfile.mkstemp(prefix=root_dir.stem, suffix='.zip')
-    zip_file = ZipFile(zip_file_path, 'w')
+    _zip_file_fd, zip_file_path = tempfile.mkstemp(prefix=root_dir.stem, suffix=".zip")
+    zip_file = ZipFile(zip_file_path, "w")
     for path in paths:
         if path.is_file():
             zip_file.write(path, path.relative_to(root_dir))
@@ -166,7 +165,7 @@ class AlfalfaAPIException(AlfalfaException):
 
     def __str__(self) -> str:
         if hasattr(self, "payload"):
-            return super().__str__() + '\nAPI Payload: \n' + json.dumps(self.payload)
+            return super().__str__() + "\nAPI Payload: \n" + json.dumps(self.payload)
         return super().__str__()
 
 

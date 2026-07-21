@@ -28,7 +28,7 @@ def test_api_workflow(client: PacerClient, start_datetime: datetime, end_datetim
 
     assert client.get_sim_time(run_id) == current_datetime, "Run time did not increment after advance call"
     assert client.get_sim_time(run_alias) == alias_current_datetime, "Run referenced by alias did not increment"
-    assert current_datetime == current_datetime, "run_id and run_alias out of sync"
+    assert current_datetime == alias_current_datetime, "run_id and run_alias out of sync"
 
     inputs = client.get_inputs(run_id)
     assert isinstance(inputs, list), "Inputs of incorrect type"
@@ -51,7 +51,7 @@ def test_api_workflow(client: PacerClient, start_datetime: datetime, end_datetim
 @pytest.mark.integration
 def test_error_handling(client: PacerClient, run_id: RunID):
 
-    inputs = {'non_existant_point': 500}
+    inputs = {"non_existant_point": 500}
     with pytest.raises(AlfalfaClientException):
         client.set_inputs(run_id, inputs)
 
@@ -91,7 +91,6 @@ def test_run_not_found(client: PacerClient):
 
 @pytest.mark.integration
 def test_model_not_found(client: PacerClient):
-    try:
+    with pytest.raises(AlfalfaAPIException) as exc_info:
         client.create_run_from_model("0000")
-    except AlfalfaAPIException as e:
-        assert not hasattr(e, 'payload')
+    assert not hasattr(exc_info.value, "payload")

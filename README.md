@@ -16,7 +16,7 @@ from pacer_client.pacer_client import PacerClient
 client = PacerClient("http://localhost")
 ```
 
-Additional documentation for the functions of `pacer-client` can be found [here](https://nrel.github.io/alfalfa-client/).
+Additional documentation for the functions of `pacer-client` can be found [here](https://natlabrockies.github.io/alfalfa-client/).
 
 ## Development
 
