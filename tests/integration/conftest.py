@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from alfalfa_client.alfalfa_client import AlfalfaClient
+from pacer_client.pacer_client import PacerClient
 
 
 def pytest_generate_tests(metafunc):
@@ -29,11 +29,11 @@ def create_zip(model_dir):
 
 @pytest.fixture
 def client():
-    yield AlfalfaClient('http://localhost')
+    yield PacerClient('http://localhost')
 
 
 @pytest.fixture
-def run_id(client: AlfalfaClient, model_path: Path):
+def run_id(client: PacerClient, model_path: Path):
     run_id = client.submit(model_path)
 
     yield run_id
@@ -54,7 +54,7 @@ def end_datetime():
 
 
 @pytest.fixture
-def internal_clock_run_id(client: AlfalfaClient, run_id: str, start_datetime: datetime, end_datetime: datetime):
+def internal_clock_run_id(client: PacerClient, run_id: str, start_datetime: datetime, end_datetime: datetime):
     params = {
         "external_clock": False,
         "start_datetime": start_datetime,
@@ -66,7 +66,7 @@ def internal_clock_run_id(client: AlfalfaClient, run_id: str, start_datetime: da
 
 
 @pytest.fixture
-def external_clock_run_id(client: AlfalfaClient, run_id: str, start_datetime: datetime, end_datetime: datetime):
+def external_clock_run_id(client: PacerClient, run_id: str, start_datetime: datetime, end_datetime: datetime):
     params = {
         "external_clock": True,
         "start_datetime": start_datetime,

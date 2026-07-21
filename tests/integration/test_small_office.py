@@ -2,12 +2,12 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from alfalfa_client.alfalfa_client import AlfalfaClient
+from pacer_client.pacer_client import PacerClient
 
 
 @pytest.mark.integration
 def test_basic_io():
-    alfalfa = AlfalfaClient(host='http://localhost')
+    alfalfa = PacerClient(host='http://localhost')
     run_id = alfalfa.submit('tests/integration/models/small_office')
 
     alfalfa.wait(run_id, "ready")
@@ -44,7 +44,7 @@ def test_basic_io():
 
 @pytest.mark.integration
 def test_many_model_operations():
-    alfalfa = AlfalfaClient(host='http://localhost')
+    alfalfa = PacerClient(host='http://localhost')
     num_models = 2
     model_paths = ['tests/integration/models/small_office'] * num_models
 

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "alfalfa-client"
+name = "pacer-client"
 version = "1.0.0"
 description = "A standalone client for the NREL Alfalfa application"
 authors = [

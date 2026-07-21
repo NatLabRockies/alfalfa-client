@@ -2,12 +2,12 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from alfalfa_client.alfalfa_client import AlfalfaClient, RunID
-from alfalfa_client.lib import AlfalfaAPIException, AlfalfaClientException
+from pacer_client.pacer_client import PacerClient, RunID
+from pacer_client.lib import AlfalfaAPIException, AlfalfaClientException
 
 
 @pytest.mark.integration
-def test_api_workflow(client: AlfalfaClient, start_datetime: datetime, end_datetime: datetime, run_id: RunID):
+def test_api_workflow(client: PacerClient, start_datetime: datetime, end_datetime: datetime, run_id: RunID):
     run_alias = "test_run"
     client.set_alias(run_alias, run_id)
 
@@ -49,7 +49,7 @@ def test_api_workflow(client: AlfalfaClient, start_datetime: datetime, end_datet
 
 
 @pytest.mark.integration
-def test_error_handling(client: AlfalfaClient, run_id: RunID):
+def test_error_handling(client: PacerClient, run_id: RunID):
 
     inputs = {'non_existant_point': 500}
     with pytest.raises(AlfalfaClientException):
@@ -57,7 +57,7 @@ def test_error_handling(client: AlfalfaClient, run_id: RunID):
 
 
 @pytest.mark.integration
-def test_run_not_found(client: AlfalfaClient):
+def test_run_not_found(client: PacerClient):
     with pytest.raises(AlfalfaAPIException):
         client.get_sim_time("0000")
 
@@ -90,7 +90,7 @@ def test_run_not_found(client: AlfalfaClient):
 
 
 @pytest.mark.integration
-def test_model_not_found(client: AlfalfaClient):
+def test_model_not_found(client: PacerClient):
     try:
         client.create_run_from_model("0000")
     except AlfalfaAPIException as e:

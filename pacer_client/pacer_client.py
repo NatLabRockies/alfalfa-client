@@ -38,7 +38,7 @@ from urllib.parse import urljoin
 import requests
 from requests_toolbelt import MultipartEncoder
 
-from alfalfa_client.lib import (
+from pacer_client.lib import (
     AlfalfaAPIException,
     AlfalfaClientException,
     AlfalfaException,
@@ -50,8 +50,8 @@ ModelID = str
 RunID = str
 
 
-class AlfalfaClient:
-    """AlfalfaClient is a wrapper for the Alfalfa REST API"""
+class PacerClient:
+    """PacerClient is a wrapper for the Alfalfa REST API"""
 
     def __init__(self, host: str = 'http://localhost', api_version: str = 'v2'):
         """Create a new alfalfa client instance

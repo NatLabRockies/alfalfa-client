@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Alfalfa Client'
+project = 'Pacer Client'
 copyright = '2023, NREL'
 author = 'NREL'
 release = '0.5.0'
