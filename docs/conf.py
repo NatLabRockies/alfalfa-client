@@ -5,6 +5,7 @@
 
 import os
 import sys
+from importlib.metadata import version as _version
 
 sys.path.insert(0, os.path.abspath(".."))
 
@@ -14,7 +15,8 @@ sys.path.insert(0, os.path.abspath(".."))
 project = "Pacer Client"
 copyright = "2023, NREL"
 author = "NREL"
-release = "0.5.0"
+# Pulled from the installed package so this doesn't go stale between releases.
+release = _version("pacer-client")
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -29,4 +31,3 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "alabaster"
-html_static_path = ["_static"]

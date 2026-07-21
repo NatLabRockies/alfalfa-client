@@ -1,0 +1,34 @@
+# Configures the categorized "Generate release notes" feature used when
+# publishing a GitHub Release (see README.md "Releasing" section).
+# Modeled after https://github.com/SEED-platform/seed/blob/develop/.github/release.yml
+# https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes
+
+changelog:
+  exclude:
+    labels:
+      - "DO NOT MERGE"
+      - "do not publish"
+      - duplicate
+      - invalid
+      - wontfix
+      - question
+  categories:
+    - title: Breaking Changes 🛠
+      labels:
+        - breaking
+    - title: New Features 🎉
+      labels:
+        - enhancement
+    - title: Bug Fixes 🐛
+      labels:
+        - bug
+    - title: Maintenance 🧹
+      labels:
+        - dependencies
+        - github_actions
+        - python
+        - documentation
+        - "add test"
+    - title: Other Changes
+      labels:
+        - "*"
