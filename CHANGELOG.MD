@@ -9,6 +9,12 @@
 - Rename alfalfa-client to pacer-client by @nllong in https://github.com/NatLabRockies/alfalfa-client/pull/75
 - Group dependabot updates and drop python <=3.9 by @nllong in https://github.com/NatLabRockies/alfalfa-client/pull/82
 
+### Maintenance 🧹
+
+- Add `AlfalfaClient`/`alfalfa_client` backwards-compatibility aliases (with a `DeprecationWarning` on
+  `import alfalfa_client`) and publish to both the `pacer-client` and `alfalfa-client` PyPI projects during the
+  rename transition (PR pending)
+
 # pacer-client Version 1.0.0
 
 <!-- Release notes generated using configuration in .github/release.yml -->

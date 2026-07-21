@@ -2,6 +2,19 @@ name: PyPIRelease
 # Publishes the package to PyPI when a GitHub Release is published.
 # The release (and its git tag) is created in the GitHub UI or with `gh release create vX.Y.Z`;
 # this workflow then builds the distributions and uploads them to PyPI.
+#
+# During the alfalfa-client -> pacer-client rename transition, the exact same release is
+# published under BOTH PyPI project names so existing `alfalfa-client` users keep getting
+# updates while everyone migrates to `pacer-client`. The wheel/sdist contents are identical
+# (both the `pacer_client` package and the `alfalfa_client` compatibility shim are always
+# included, see pyproject.toml); only the `name` in pyproject.toml is swapped before the
+# `alfalfa-client` build.
+#
+# NOTE: each PyPI project name needs its own Trusted Publisher configured on PyPI.org,
+# pointing at this workflow file and the matching environment name below
+# (pypi_release / pypi_release_alfalfa). The `pacer-client` one already exists; a new one
+# must be added for `alfalfa-client` (Settings -> Publishing on the alfalfa-client PyPI
+# project) before this workflow can publish there.
 # https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
 
 on:
@@ -10,8 +23,11 @@ on:
 
 jobs:
   build:
-    name: Build distribution 📦
+    name: Build distribution 📦 (${{ matrix.pypi_name }})
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        pypi_name: [pacer-client, alfalfa-client]
 
     steps:
       - uses: actions/checkout@v7
@@ -27,31 +43,37 @@ jobs:
           pip install --upgrade pip
           build
           --user
+      - name: Set package name to ${{ matrix.pypi_name }}
+        if: matrix.pypi_name != 'pacer-client'
+        run: sed -i 's/^name = "pacer-client"/name = "${{ matrix.pypi_name }}"/' pyproject.toml
       - name: Build a binary wheel and a source tarball
         run: python3 -m build
       - name: Store the distribution packages
         uses: actions/upload-artifact@v7
         with:
-          name: python-package-distributions
+          name: python-package-distributions-${{ matrix.pypi_name }}
           path: dist/
 
   publish-to-pypi:
     name: >-
-      Publish Python 🐍 distribution 📦 to PyPI
+      Publish Python 🐍 distribution 📦 to PyPI (${{ matrix.pypi_name }})
     needs:
       - build
+    strategy:
+      matrix:
+        pypi_name: [pacer-client, alfalfa-client]
     runs-on: ubuntu-latest
     environment:
-      name: pypi_release
-      url: https://pypi.org/p/pacer-client
+      name: ${{ matrix.pypi_name == 'pacer-client' && 'pypi_release' || 'pypi_release_alfalfa' }}
+      url: https://pypi.org/p/${{ matrix.pypi_name }}
     permissions:
       id-token: write # IMPORTANT: mandatory for trusted publishing
 
     steps:
-      - name: Download all the dists
+      - name: Download the ${{ matrix.pypi_name }} dist
         uses: actions/download-artifact@v8
         with:
-          name: python-package-distributions
+          name: python-package-distributions-${{ matrix.pypi_name }}
           path: dist/
       - name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
