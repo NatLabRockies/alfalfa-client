@@ -2,8 +2,8 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from pacer_client.pacer_client import PacerClient, RunID
 from pacer_client.lib import AlfalfaAPIException, AlfalfaClientException
+from pacer_client.pacer_client import PacerClient, RunID
 
 
 @pytest.mark.integration
