@@ -19,7 +19,7 @@ client = PacerClient("http://localhost")
 > **Renaming from `alfalfa-client`:** this project was renamed from `alfalfa-client`/`AlfalfaClient` to
 > `pacer-client`/`PacerClient`. During the transition, both names keep working: `AlfalfaClient` is an alias of
 > `PacerClient`, and the `alfalfa_client` package/`pip install alfalfa-client` continue to be published with
-> identical functionality (see `alfalfa_client/__init__.py`). `import alfalfa_client` (in any form) prints a
+> identical functionality (see `alfalfa_client/__init__.py`). `import alfalfa_client` (in any form) emits a
 > `DeprecationWarning` pointing you to `pacer_client`; the `alfalfa-client` name and imports will eventually be
 > removed, so new code should prefer `pacer_client`/`PacerClient`.
 
