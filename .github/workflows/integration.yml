@@ -30,10 +30,10 @@ jobs:
           poetry-version: "2.1.1"
 
       - name: Start Alfalfa
-        uses: NREL/alfalfa-action@v1
+        uses: NatLabRockies/alfalfa-action@v1
         with:
-          tag: "develop"
-          compose-file-ref: "develop"
+          tag: "pacer-dev-prod-docs"
+          compose-file-ref: "pacer-dev-prod-docs"
           worker-scale: 2
 
       - name: Wait for web API
