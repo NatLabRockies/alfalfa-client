@@ -2,12 +2,12 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from alfalfa_client.alfalfa_client import AlfalfaClient, RunID
-from alfalfa_client.lib import AlfalfaAPIException, AlfalfaClientException
+from pacer_client.lib import AlfalfaAPIException, AlfalfaClientException
+from pacer_client.pacer_client import PacerClient, RunID
 
 
 @pytest.mark.integration
-def test_api_workflow(client: AlfalfaClient, start_datetime: datetime, end_datetime: datetime, run_id: RunID):
+def test_api_workflow(client: PacerClient, start_datetime: datetime, end_datetime: datetime, run_id: RunID):
     run_alias = "test_run"
     client.set_alias(run_alias, run_id)
 
@@ -28,7 +28,7 @@ def test_api_workflow(client: AlfalfaClient, start_datetime: datetime, end_datet
 
     assert client.get_sim_time(run_id) == current_datetime, "Run time did not increment after advance call"
     assert client.get_sim_time(run_alias) == alias_current_datetime, "Run referenced by alias did not increment"
-    assert current_datetime == current_datetime, "run_id and run_alias out of sync"
+    assert current_datetime == alias_current_datetime, "run_id and run_alias out of sync"
 
     inputs = client.get_inputs(run_id)
     assert isinstance(inputs, list), "Inputs of incorrect type"
@@ -49,15 +49,15 @@ def test_api_workflow(client: AlfalfaClient, start_datetime: datetime, end_datet
 
 
 @pytest.mark.integration
-def test_error_handling(client: AlfalfaClient, run_id: RunID):
+def test_error_handling(client: PacerClient, run_id: RunID):
 
-    inputs = {'non_existant_point': 500}
+    inputs = {"non_existant_point": 500}
     with pytest.raises(AlfalfaClientException):
         client.set_inputs(run_id, inputs)
 
 
 @pytest.mark.integration
-def test_run_not_found(client: AlfalfaClient):
+def test_run_not_found(client: PacerClient):
     with pytest.raises(AlfalfaAPIException):
         client.get_sim_time("0000")
 
@@ -90,8 +90,7 @@ def test_run_not_found(client: AlfalfaClient):
 
 
 @pytest.mark.integration
-def test_model_not_found(client: AlfalfaClient):
-    try:
+def test_model_not_found(client: PacerClient):
+    with pytest.raises(AlfalfaAPIException) as exc_info:
         client.create_run_from_model("0000")
-    except AlfalfaAPIException as e:
-        assert not hasattr(e, 'payload')
+    assert not hasattr(exc_info.value, "payload")

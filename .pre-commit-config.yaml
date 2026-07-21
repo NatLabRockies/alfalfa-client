@@ -20,43 +20,14 @@ repos:
       - id: requirements-txt-fixer
       - id: mixed-line-ending
         args: ["--fix=auto"]
-  - repo: https://github.com/pre-commit/mirrors-autopep8
-    rev: v2.0.1
-    hooks:
-      - id: autopep8
-        args:
-          [
-            "--in-place",
-            "--aggressive",
-            "--aggressive",
-            "--recursive",
-            "--max-line-length=100",
-            "--ignore=E501,E402,W503,W504,E731",
-          ]
-  - repo: https://github.com/PyCQA/autoflake
-    rev: v2.0.0
-    hooks:
-      - id: autoflake
-        args:
-          [
-            "--in-place",
-            "--recursive",
-            "--remove-all-unused-imports",
-            "--remove-unused-variable",
-            "--ignore-init-module-imports",
-          ]
-  - repo: https://github.com/pycqa/flake8
-    rev: 6.0.0
-    hooks:
-      - id: flake8
-        args: ["--ignore=E501,E402,W503,W504,E731,F401"]
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.0.0-alpha.4
+    rev: v4.0.0-alpha.8
     hooks:
       - id: prettier
         types_or: [css, yaml, markdown, json, html, scss, javascript]
-  - repo: https://github.com/pre-commit/mirrors-isort
-    rev: v5.10.1
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.22
     hooks:
-      - id: isort
-        args: ["-m=VERTICAL_HANGING_INDENT"] # vertical hanging
+      - id: ruff-check
+        args: [--fix, --exit-non-zero-on-fix, --output-format=full]
+      - id: ruff-format

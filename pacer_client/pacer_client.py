@@ -32,39 +32,29 @@ import os
 from collections import OrderedDict
 from datetime import datetime
 from time import sleep, time
-from typing import List, Union
 from urllib.parse import urljoin
 
 import requests
 from requests_toolbelt import MultipartEncoder
 
-from alfalfa_client.lib import (
-    AlfalfaAPIException,
-    AlfalfaClientException,
-    AlfalfaException,
-    parallelize,
-    prepare_model
-)
+from pacer_client.lib import AlfalfaAPIException, AlfalfaClientException, AlfalfaException, parallelize, prepare_model
 
 ModelID = str
 RunID = str
 
 
-class AlfalfaClient:
-    """AlfalfaClient is a wrapper for the Alfalfa REST API"""
+class PacerClient:
+    """PacerClient is a wrapper for the Alfalfa REST API"""
 
-    def __init__(self, host: str = 'http://localhost', api_version: str = 'v2'):
+    def __init__(self, host: str = "http://localhost", api_version: str = "v2"):
         """Create a new alfalfa client instance
 
         :param host: url for host of alfalfa web server
         :param api_version: version of alfalfa api to use (probably don't change this)
         """
-        self.host = host.rstrip('/')
-        self.haystack_filter = self.host + '/haystack/read?filter='
-        self.haystack_json_header = {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
+        self.host = host.rstrip("/")
+        self.haystack_filter = self.host + "/haystack/read?filter="
+        self.haystack_json_header = {"Content-Type": "application/json", "Accept": "application/json"}
 
         self.host = host
         self.api_version = api_version
@@ -76,7 +66,9 @@ class AlfalfaClient:
 
     def _request(self, endpoint: str, method="POST", parameters=None) -> requests.Response:
         if parameters:
-            response = requests.request(method=method, url=self.url + endpoint, json=parameters, headers={"Content-Type": "application/json"})
+            response = requests.request(
+                method=method, url=self.url + endpoint, json=parameters, headers={"Content-Type": "application/json"}
+            )
         else:
             response = requests.request(method=method, url=self.url + endpoint)
 
@@ -90,7 +82,7 @@ class AlfalfaClient:
         return response
 
     @parallelize
-    def status(self, run_id: Union[RunID, List[RunID]]) -> str:
+    def status(self, run_id: RunID | list[RunID]) -> str:
         """Get status of run
 
         :param run_id: id of run or list of ids
@@ -100,7 +92,7 @@ class AlfalfaClient:
         return response["payload"]["status"]
 
     @parallelize
-    def get_error_log(self, run_id: Union[RunID, List[RunID]]) -> str:
+    def get_error_log(self, run_id: RunID | list[RunID]) -> str:
         """Get error log from run
 
         :param run_id: id of run or list of ids
@@ -110,7 +102,7 @@ class AlfalfaClient:
         return response["payload"]["errorLog"]
 
     @parallelize
-    def wait(self, run_id: Union[RunID, List[RunID]], desired_status: str, timeout: float = 600) -> None:
+    def wait(self, run_id: RunID | list[RunID], desired_status: str, timeout: float = 600) -> None:
         """Wait for a run to have a certain status or timeout with error
 
         :param run_id: id of run or list of ids
@@ -133,7 +125,7 @@ class AlfalfaClient:
                 raise AlfalfaException(error_log)
 
             if current_status != previous_status:
-                print("Desired status: {}\t\tCurrent status: {}".format(desired_status, current_status))
+                print(f"Desired status: {desired_status}\t\tCurrent status: {current_status}")
                 previous_status = current_status
             if current_status == desired_status.upper():
                 return
@@ -151,24 +143,24 @@ class AlfalfaClient:
         model_path = prepare_model(model_path)
         filename = os.path.basename(model_path)
 
-        payload = {'modelName': filename}
+        payload = {"modelName": filename}
 
-        response = self._request('models/upload', parameters=payload)
+        response = self._request("models/upload", parameters=payload)
         response_body = response.json()["payload"]
-        post_url = response_body['url']
+        post_url = response_body["url"]
 
-        model_id = response_body['modelId']
-        form_data = OrderedDict(response_body['fields'])
-        form_data['file'] = ('filename', open(model_path, 'rb'))
+        model_id = response_body["modelId"]
+        form_data = OrderedDict(response_body["fields"])
+        form_data["file"] = ("filename", open(model_path, "rb"))
 
         encoder = MultipartEncoder(fields=form_data)
-        response = requests.post(post_url, data=encoder, headers={'Content-Type': encoder.content_type})
+        response = requests.post(post_url, data=encoder, headers={"Content-Type": encoder.content_type})
         response.raise_for_status()
         assert response.status_code == 204, "Model upload failed"
 
         return model_id
 
-    def create_run_from_model(self, model_id: Union[ModelID, List[ModelID]], wait_for_status: bool = True) -> RunID:
+    def create_run_from_model(self, model_id: ModelID | list[ModelID], wait_for_status: bool = True) -> RunID:
         """Create a run from a model
 
         :param model_id: id of model to create a run from or list of ids
@@ -184,7 +176,7 @@ class AlfalfaClient:
         return run_id
 
     @parallelize
-    def submit(self, model_path: Union[str, List[str]], wait_for_status: bool = True) -> RunID:
+    def submit(self, model_path: str | list[str], wait_for_status: bool = True) -> RunID:
         """Submit a model to alfalfa
 
         :param model_path: path to the model to upload or list of paths
@@ -202,7 +194,16 @@ class AlfalfaClient:
         return run_id
 
     @parallelize
-    def start(self, run_id: Union[RunID, List[RunID]], start_datetime: datetime, end_datetime: datetime, timescale: int = 5, external_clock: bool = False, realtime: bool = False, wait_for_status: bool = True):
+    def start(
+        self,
+        run_id: RunID | list[RunID],
+        start_datetime: datetime,
+        end_datetime: datetime,
+        timescale: int = 5,
+        external_clock: bool = False,
+        realtime: bool = False,
+        wait_for_status: bool = True,
+    ):
         """Start one run from a model.
 
         :param run_id: id of run or list of ids
@@ -214,11 +215,11 @@ class AlfalfaClient:
         :param wait_for_status: wait for model to be "RUNNING" before returning
         """
         parameters = {
-            'startDatetime': str(start_datetime),
-            'endDatetime': str(end_datetime),
-            'timescale': timescale,
-            'externalClock': external_clock,
-            'realtime': realtime
+            "startDatetime": str(start_datetime),
+            "endDatetime": str(end_datetime),
+            "timescale": timescale,
+            "externalClock": external_clock,
+            "realtime": realtime,
         }
 
         response = self._request(f"runs/{run_id}/start", parameters=parameters)
@@ -229,7 +230,7 @@ class AlfalfaClient:
             self.wait(run_id, "running")
 
     @parallelize
-    def stop(self, run_id: Union[RunID, List[RunID]], wait_for_status: bool = True):
+    def stop(self, run_id: RunID | list[RunID], wait_for_status: bool = True):
         """Stop a run
 
         :param run_id: id of the run or list of ids
@@ -244,20 +245,19 @@ class AlfalfaClient:
             self.wait(run_id, "complete")
 
     @parallelize
-    def advance(self, run_id: Union[RunID, List[RunID]]) -> None:
+    def advance(self, run_id: RunID | list[RunID]) -> None:
         """Advance a run 1 timestep
 
         :param run_id: id of run or list of ids"""
         self._request(f"runs/{run_id}/advance")
 
-    def get_inputs(self, run_id: str) -> List[str]:
+    def get_inputs(self, run_id: str) -> list[str]:
         """Get inputs of run
 
         :param run_id: id of run
         :returns: list of input names"""
 
-        response = self._request(f"runs/{run_id}/points", method="POST",
-                                 parameters={"pointTypes": ["INPUT", "BIDIRECTIONAL"]})
+        response = self._request(f"runs/{run_id}/points", method="POST", parameters={"pointTypes": ["INPUT", "BIDIRECTIONAL"]})
         response_body = response.json()["payload"]
         inputs = []
         for point in response_body:
@@ -277,15 +277,14 @@ class AlfalfaClient:
                 point_writes[id] = value
             else:
                 raise AlfalfaClientException(f"No Point exists with name {name}")
-        self._request(f"runs/{run_id}/points/values", method="PUT", parameters={'points': point_writes})
+        self._request(f"runs/{run_id}/points/values", method="PUT", parameters={"points": point_writes})
 
     def get_outputs(self, run_id: str) -> dict:
         """Get outputs of run
 
         :param run_id: id of run
         :returns: dictionary of output names and values"""
-        response = self._request(f"runs/{run_id}/points/values", method="POST",
-                                 parameters={"pointTypes": ["OUTPUT", "BIDIRECTIONAL"]})
+        response = self._request(f"runs/{run_id}/points/values", method="POST", parameters={"pointTypes": ["OUTPUT", "BIDIRECTIONAL"]})
         response_body = response.json()["payload"]
         outputs = {}
         for point, value in response_body.items():
@@ -295,7 +294,7 @@ class AlfalfaClient:
         return outputs
 
     @parallelize
-    def get_sim_time(self, run_id: Union[RunID, List[RunID]]) -> datetime:
+    def get_sim_time(self, run_id: RunID | list[RunID]) -> datetime:
         """Get sim_time of run
 
         :param run_id: id of site or list of ids
@@ -303,7 +302,7 @@ class AlfalfaClient:
         """
         response = self._request(f"runs/{run_id}/time", method="GET")
         response_body = response.json()["payload"]
-        return datetime.strptime(response_body["time"], '%Y-%m-%d %H:%M:%S')
+        return datetime.strptime(response_body["time"], "%Y-%m-%d %H:%M:%S")
 
     def set_alias(self, alias: str, run_id: RunID) -> None:
         """Set alias to point to a run_id

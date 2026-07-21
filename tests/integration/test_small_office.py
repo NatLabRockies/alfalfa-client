@@ -2,21 +2,16 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from alfalfa_client.alfalfa_client import AlfalfaClient
+from pacer_client.pacer_client import PacerClient
 
 
 @pytest.mark.integration
 def test_basic_io():
-    alfalfa = AlfalfaClient(host='http://localhost')
-    run_id = alfalfa.submit('tests/integration/models/small_office')
+    alfalfa = PacerClient(host="http://localhost")
+    run_id = alfalfa.submit("tests/integration/models/small_office")
 
     alfalfa.wait(run_id, "ready")
-    alfalfa.start(
-        run_id,
-        external_clock=True,
-        start_datetime=datetime(2019, 1, 2, 0, 2, 0),
-        end_datetime=datetime(2019, 1, 3, 0, 0, 0)
-    )
+    alfalfa.start(run_id, external_clock=True, start_datetime=datetime(2019, 1, 2, 0, 2, 0), end_datetime=datetime(2019, 1, 3, 0, 0, 0))
 
     alfalfa.wait(run_id, "running")
 
@@ -28,7 +23,7 @@ def test_basic_io():
     alfalfa.set_inputs(run_id, inputs)
 
     outputs = alfalfa.get_outputs(run_id)
-    assert "Test_Point_1" in outputs.keys(), "Echo point for Test_Point_1 is not in outputs"
+    assert "Test_Point_1" in outputs, "Echo point for Test_Point_1 is not in outputs"
 
     # -- Advance a single time step
     alfalfa.advance(run_id)
@@ -44,9 +39,9 @@ def test_basic_io():
 
 @pytest.mark.integration
 def test_many_model_operations():
-    alfalfa = AlfalfaClient(host='http://localhost')
+    alfalfa = PacerClient(host="http://localhost")
     num_models = 2
-    model_paths = ['tests/integration/models/small_office'] * num_models
+    model_paths = ["tests/integration/models/small_office"] * num_models
 
     # Upload Models
     run_ids = alfalfa.submit(model_path=model_paths)
@@ -56,10 +51,7 @@ def test_many_model_operations():
 
     # Start Runs
     start_datetime = datetime(2022, 1, 1, 0, 0)
-    alfalfa.start(run_ids,
-                  start_datetime=start_datetime,
-                  end_datetime=datetime(2022, 1, 1, 0, 20),
-                  external_clock=True)
+    alfalfa.start(run_ids, start_datetime=start_datetime, end_datetime=datetime(2022, 1, 1, 0, 20), external_clock=True)
 
     for run_id in run_ids:
         assert alfalfa.status(run_id) == "RUNNING", "Run has incorrect status"

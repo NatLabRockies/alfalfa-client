@@ -27,6 +27,7 @@ dist
 
 # Build
 build
+node_modules
 
 .venv
 .tox

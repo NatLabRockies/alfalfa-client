@@ -1,22 +1,22 @@
-# Alfalfa Client
+# Pacer Client
 
 The purpose of this repository is to provide a standalone client for use with the Alfalfa application. It additionally includes a Historian to quickly/easily enable saving of results from Alfalfa simulations.
 
 ## Usage
 
-This repo is packaged and hosted on [PyPI here](https://pypi.org/project/alfalfa-client/).
+This repo is packaged and hosted on [PyPI here](https://pypi.org/project/pacer-client/).
 
 ```bash
-pip install alfalfa-client
+pip install pacer-client
 ```
 
 ```python
-from alfalfa_client.alfalfa_client import AlfalfaClient
+from pacer_client.pacer_client import PacerClient
 
-client = AlfalfaClient("http://localhost")
+client = PacerClient("http://localhost")
 ```
 
-Additional documentation for the functions of `alfalfa-client` can be found [here](https://nrel.github.io/alfalfa-client/).
+Additional documentation for the functions of `pacer-client` can be found [here](https://natlabrockies.github.io/alfalfa-client/).
 
 ## Development
 
@@ -33,7 +33,7 @@ poetry install
 ```
 
 Running Tests:
-All `alfalfa-client` tests currently require a running instance of [Alfalfa](https://github.com/NREL/alfalfa) with at least 2 workers.
+All `pacer-client` tests currently require a running instance of [Alfalfa](https://github.com/NREL/alfalfa) with at least 2 workers.
 
 ```bash
 poetry run pytest -m integration
