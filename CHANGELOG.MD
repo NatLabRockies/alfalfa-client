@@ -1,4 +1,4 @@
-# Unreleased
+# pacer-client Version 1.1.0rc1
 
 <!-- Release notes generated using configuration in .github/release.yml -->
 
@@ -9,11 +9,25 @@
 - Rename alfalfa-client to pacer-client by @nllong in https://github.com/NatLabRockies/alfalfa-client/pull/75
 - Group dependabot updates and drop python <=3.9 by @nllong in https://github.com/NatLabRockies/alfalfa-client/pull/82
 
+### New Features 🎉
+
+- Enable alias to AlfalfaClient by @nllong in https://github.com/NatLabRockies/alfalfa-client/pull/87
+
 ### Maintenance 🧹
 
 - Add `AlfalfaClient`/`alfalfa_client` backwards-compatibility aliases (with a `DeprecationWarning` on
   `import alfalfa_client`) and publish to both the `pacer-client` and `alfalfa-client` PyPI projects during the
   rename transition
+- Update documentation and changelog by @nllong in https://github.com/NatLabRockies/alfalfa-client/pull/86
+- Bump the github-actions-dependencies group with 3 updates by @dependabot in https://github.com/NatLabRockies/alfalfa-client/pull/83
+- Bump the pip-dependencies group with 4 updates by @dependabot in https://github.com/NatLabRockies/alfalfa-client/pull/84
+- Bump pre-commit from 4.6.0 to 4.6.1 in the pip-dependencies group by @dependabot in https://github.com/NatLabRockies/alfalfa-client/pull/88
+
+## New Contributors
+
+- @dependabot made their first contribution in https://github.com/NatLabRockies/alfalfa-client/pull/83
+
+**Full Changelog**: https://github.com/NatLabRockies/alfalfa-client/compare/v1.0.0...v1.1.0rc1
 
 # pacer-client Version 1.0.0
 
