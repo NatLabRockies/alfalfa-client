@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.abspath(".."))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "Pacer Client"
-copyright = "2026, NLR"
+copyright = "2023-2026, NLR"
 author = "NLR"
 # Pulled from the installed package so this doesn't go stale between releases.
 release = _version("pacer-client")
