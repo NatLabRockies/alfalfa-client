@@ -5,7 +5,7 @@
 
 Pacer Client Documentation
 ==========================================
-The Pacer Client provides a python interface for interacting with an `Alfalfa <https://github.com/nrel/alfalfa>`_ instance.
+The Pacer Client provides a python interface for interacting with an `Alfalfa <https://github.com/NatLabRockies/alfalfa>`_ instance.
 
 .. toctree::
    :maxdepth: 2
