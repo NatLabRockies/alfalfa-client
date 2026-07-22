@@ -30,7 +30,6 @@ jobs:
           poetry-version: "2.1.1"
 
       - name: Start Alfalfa
-        # TODO: switch back to NatLabRockies/alfalfa-action@v1 on develop after Alfalfa merges the pacer rename branch.
         uses: NatLabRockies/alfalfa-action@v1
         with:
           tag: "pacer-dev-prod-docs"
