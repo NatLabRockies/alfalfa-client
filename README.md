@@ -64,7 +64,7 @@ correctly, per `.github/release.yml`.
    If `--ff-only` fails, `main` and `develop` have diverged (e.g. a hotfix landed only on `main`) — reconcile that first so the release doesn't leave the branches out of sync.
 1. Draft a release on the GitHub repository targeting `main` (tag `v0.1.2`) and click **"Generate release notes"**
    (UI), or run `gh release create v0.1.2 --target main --generate-notes --draft` — do not publish yet.
-1. Copy the generated "## What's Changed" notes into `CHANGELOG.MD` under the `# Unreleased` section, then (as part of the release) rename that header to `# pacer-client Version 0.1.2` and add the `**Full Changelog**` line.
+1. Copy the generated "## What's Changed" notes into `CHANGELOG.md` under the `# Unreleased` section, then (as part of the release) rename that header to `# pacer-client Version 0.1.2` and add the `**Full Changelog**` line.
 1. Commit this alongside the version bump PR, or as a quick follow-up commit on `main`.
 1. Publish the drafted release. This triggers the `PyPIRelease` workflow (`.github/workflows/pypi_release.yml`),
    which builds the package **twice** (once as `pacer-client`, once with the name swapped to `alfalfa-client`) and
@@ -76,4 +76,4 @@ correctly, per `.github/release.yml`.
    release after this change.
 1. Confirm the new version appears on both [pacer-client](https://pypi.org/project/pacer-client/) and
    [alfalfa-client](https://pypi.org/project/alfalfa-client/) on PyPI, and that the release notes and
-   `CHANGELOG.MD` match.
+   `CHANGELOG.md` match.
