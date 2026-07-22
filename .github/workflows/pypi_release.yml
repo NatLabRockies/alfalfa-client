@@ -10,11 +10,13 @@ name: PyPIRelease
 # included, see pyproject.toml); only the `name` in pyproject.toml is swapped before the
 # `alfalfa-client` build.
 #
-# NOTE: each PyPI project name needs its own Trusted Publisher configured on PyPI.org,
-# pointing at this workflow file and the matching environment name below
-# (pypi_release / pypi_release_alfalfa). The `pacer-client` one already exists; a new one
-# must be added for `alfalfa-client` (Settings -> Publishing on the alfalfa-client PyPI
-# project) before this workflow can publish there.
+# Authentication:
+#   pacer-client  — PyPI Trusted Publishing (OIDC), environment: pypi_release
+#   alfalfa-client — classic PyPI API token stored as the PYPI_API_TOKEN_ALFALFA secret in
+#                    the pypi_release_alfalfa GitHub environment (Trusted Publishing cannot be
+#                    used because it requires a Trusted Publisher entry on the PyPI project,
+#                    which is not set up for the legacy alfalfa-client project name).
+#                    To create the token: PyPI → alfalfa-client → Settings → API tokens.
 # https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
 
 on:
@@ -75,5 +77,12 @@ jobs:
         with:
           name: python-package-distributions-${{ matrix.pypi_name }}
           path: dist/
-      - name: Publish distribution 📦 to PyPI
+      - name: Publish distribution 📦 to PyPI (trusted publishing)
+        if: matrix.pypi_name == 'pacer-client'
         uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Publish distribution 📦 to PyPI (API token)
+        if: matrix.pypi_name == 'alfalfa-client'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN_ALFALFA }}
+          attestations: false

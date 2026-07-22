@@ -68,12 +68,12 @@ correctly, per `.github/release.yml`.
 1. Commit this alongside the version bump PR, or as a quick follow-up commit on `main`.
 1. Publish the drafted release. This triggers the `PyPIRelease` workflow (`.github/workflows/pypi_release.yml`),
    which builds the package **twice** (once as `pacer-client`, once with the name swapped to `alfalfa-client`) and
-   publishes both to PyPI via trusted publishing — no manual `poetry build`/`poetry publish` needed. Both
+   publishes both to PyPI — no manual `poetry build`/`poetry publish` needed. Both
    distributions have identical contents; this keeps `pip install alfalfa-client` working during the rename
-   transition (see the note in the README's Usage section). Publishing to `alfalfa-client` requires a Trusted
-   Publisher to be configured on that PyPI project pointing at the `pypi_release_alfalfa` environment — set this
-   up once on [pypi.org](https://pypi.org/manage/project/alfalfa-client/settings/publishing/) before the first
-   release after this change.
+   transition (see the note in the README's Usage section). `pacer-client` uses PyPI Trusted Publishing (OIDC);
+   `alfalfa-client` uses a classic PyPI API token stored as the `PYPI_API_TOKEN_ALFALFA` secret in the
+   `pypi_release_alfalfa` GitHub environment (create the token at
+   [pypi.org → alfalfa-client → Settings → API tokens](https://pypi.org/manage/project/alfalfa-client/settings/)).
 1. Confirm the new version appears on both [pacer-client](https://pypi.org/project/pacer-client/) and
    [alfalfa-client](https://pypi.org/project/alfalfa-client/) on PyPI, and that the release notes and
    `CHANGELOG.md` match.
